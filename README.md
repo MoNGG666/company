@@ -27,3 +27,13 @@ Employee.objects.filter(Q(department__branch_id=1) | Q(department__branch_id=2))
 
 # 4. Поиск по году рождения
 Employee.objects.filter(birth_date__year=1990)
+
+# 5 Сотрудники в двух филиалах (через __in)
+Employee.objects.filter(department__branch_id__in=[1, 2])
+
+# 6 ФИО сотрудников без email:
+from django.db.models import Q
+
+Employee.objects.filter(
+    Q(email__isnull=True) | Q(email__exact='')
+).values('full_name')
